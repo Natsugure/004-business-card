@@ -1,13 +1,12 @@
-import { Button, Link, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { fetchUser } from "../services/users";
 import type { User } from "../types/user";
 import { LoadingOverlay } from "../components/LoadingOverlay";
+import { UserCard } from "../components/organisms/UserCard";
 
 export function Card() {
   const { id } = useParams();
-  const nav = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -31,24 +30,10 @@ export function Card() {
 
   return (
     <>
-      <Button onClick={() => nav(-1)}>戻る</Button>
       {isLoading ? (
         <LoadingOverlay />
       ) : (
-        <>
-          <Text>名前: {user?.name}</Text>
-          <Text>自己紹介: {user?.description}</Text>
-          <Text>
-            スキル: {user?.skills.map((skill) => skill.name).join(", ")}
-          </Text>
-          {user?.githubId && (
-            <Link href={user.generateGithubUrl()} isExternal>Github</Link>
-          )}
-          <br />
-          {user?.qiitaId && <Link href={user.generateQiitaUrl()} isExternal>Qiita</Link>}
-          <br />
-          {user?.xId && <Link href={user.generateXUrl()} isExternal>X</Link>}
-        </>
+        user && <UserCard user={user} />
       )}
     </>
   );
