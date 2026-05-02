@@ -8,6 +8,7 @@ export function Home() {
     <>
       <Heading as="h1">ホーム</Heading>
       <Button onClick={() => nav('/cards/sample_id')}>サンプル</Button>
+      <Button onClick={() => nav('/cards/register')}>新規登録</Button>
     </>
   )
 }
