@@ -26,6 +26,23 @@ export const fetchUser = async (id: string) => {
   );
 };
 
+export async function addUser(record: Omit<User, "createdAt">) {
+  const { error } = await supabase
+    .rpc("insert_user_and_userskill", {
+      _user_id: record.id,
+      _name: record.name,
+      _description: record.description,
+      _github_id: record.githubId ?? undefined,
+      _qiita_id: record.qiitaId ?? undefined,
+      _x_id: record.xId ?? undefined,
+      _skills: record.skills.map(skill => skill.id)
+    })
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
 async function getUserSkills(id: string): Promise<Skill[]> {
   const { data: userSkills } = await supabase
   .from("user_skill")
