@@ -1,4 +1,4 @@
-import { Header } from "../organisms/Header";
+import { Header } from "./Header";
 import { Outlet, useLocation, useNavigate } from "react-router";
 
 export function HeaderLayout() {

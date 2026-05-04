@@ -1,5 +1,5 @@
-import { supabase } from "../libs/supabase";
-import type { Skill, User } from "../types/user";
+import { supabase } from "./supabase";
+import type { Skill, User } from "../../shared/types/user";
 
 export async function fetchUser(id: string): Promise<User> {
   const { data, error } = await supabase

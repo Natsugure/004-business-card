@@ -1,8 +1,8 @@
 import { Box, Center, Flex, Heading, IconButton, Text, VStack } from "@chakra-ui/react"
 import { SiGithub, SiQiita, SiX } from "react-icons/si";
-import type { User } from "../../types/user"
-import { InnerHTML } from "../atoms/InnerHtml";
-import { generateGithubUrl, generateQiitaUrl, generateXUrl } from "../../utils/user";
+import type { User } from "../../../shared/types/user"
+import { InnerHTML } from "../../../shared/components/typography/InnerHtml";
+import { generateGithubUrl, generateQiitaUrl, generateXUrl } from "../../../utils/user";
 
 interface Props {
   user: User

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchUser } from "../services/users";
-import type { User } from "../types/user";
-import { LoadingOverlay } from "../components/organisms/LoadingOverlay";
-import { UserCard } from "../components/organisms/UserCard";
-import { UserNotFound } from "../components/organisms/UserNotFound";
+import { fetchUser } from "../services/database/users";
+import type { User } from "../shared/types/user";
+import { LoadingOverlay } from "../shared/components/overlay/LoadingOverlay";
+import { UserCard } from "../features/user/components/UserCard";
+import { UserNotFound } from "../features/user/components/UserNotFound";
 
 export function Card() {
   const { id } = useParams();
