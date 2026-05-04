@@ -176,7 +176,7 @@ export function CardForm() {
       
       <AlertDialog
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={handleOnClose}
         leastDestructiveRef={cancelRef}
       >
         <AlertDialogOverlay>
