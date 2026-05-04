@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchUser } from "../services/users";
 import type { User } from "../types/user";
-import { LoadingOverlay } from "../components/LoadingOverlay";
+import { LoadingOverlay } from "../components/organisms/LoadingOverlay";
 import { UserCard } from "../components/organisms/UserCard";
 
 export function Card() {

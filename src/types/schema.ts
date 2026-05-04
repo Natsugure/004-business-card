@@ -109,7 +109,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_user_and_userskill: {
+        Args: {
+          _description: string
+          _github_id?: string
+          _name: string
+          _qiita_id?: string
+          _skills?: number[]
+          _user_id: string
+          _x_id?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
