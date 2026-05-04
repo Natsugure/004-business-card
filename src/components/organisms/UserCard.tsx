@@ -2,6 +2,7 @@ import { Box, Center, Flex, Heading, IconButton, Text, VStack } from "@chakra-ui
 import { SiGithub, SiQiita, SiX } from "react-icons/si";
 import type { User } from "../../types/user"
 import { InnerHTML } from "../atoms/InnerHtml";
+import { generateGithubUrl, generateQiitaUrl, generateXUrl } from "../../utils/user";
 
 interface Props {
   user: User
@@ -44,9 +45,9 @@ export function UserCard(props: Props) {
       </Box>
 
       <Flex w="100%" justifyContent="center" gap={2}>
-        <IconButton aria-label="GitHub Url" icon={<SiGithub />} onClick={() => onClickExternalLinkButton(user.generateGithubUrl())} />
-        <IconButton aria-label="Qiita Url" icon={<SiQiita />} onClick={() => onClickExternalLinkButton(user.generateQiitaUrl())} />
-        <IconButton aria-label="X Url" icon={<SiX />} onClick={() => onClickExternalLinkButton(user.generateXUrl())} />
+        <IconButton aria-label="GitHub Url" icon={<SiGithub />} onClick={() => onClickExternalLinkButton(generateGithubUrl(user))} />
+        <IconButton aria-label="Qiita Url" icon={<SiQiita />} onClick={() => onClickExternalLinkButton(generateQiitaUrl(user))} />
+        <IconButton aria-label="X Url" icon={<SiX />} onClick={() => onClickExternalLinkButton(generateXUrl(user))} />
       </Flex>
     </VStack>
   )

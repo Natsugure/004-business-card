@@ -1,5 +1,5 @@
 import { supabase } from "../libs/supabase";
-import { Skill } from "../types/user";
+import type { Skill } from "../types/user";
 
 export async function fetchAllSkills() {
   const { data, error } = await supabase
@@ -11,5 +11,9 @@ export async function fetchAllSkills() {
     throw new Error(error.message);
   }
 
-  return data?.map(skill => new Skill(skill.id, skill.name)) ?? [];
+  const skills: Skill[] = data?.map(skill => {
+    return { id: skill.id, name: skill.name }
+  }) ?? [];
+
+  return skills;
 }

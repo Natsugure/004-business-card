@@ -16,7 +16,7 @@ begin
   values (_user_id, _name, _description, _github_id, _qiita_id, _x_id);
 
   -- スキル配列を展開して、user_skill テーブルに一括挿入
-  insert into user_skill (user_id, skill)
+  insert into user_skill (user_id, skill_id)
   select _user_id, skill_id from unnest(_skills) as skill_id;
 
   -- 正常終了：何も返さない

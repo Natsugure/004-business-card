@@ -1,7 +1,7 @@
 import { supabase } from "../libs/supabase";
-import { Skill, User } from "../types/user";
+import type { Skill, User } from "../types/user";
 
-export const fetchUser = async (id: string) => {
+export async function fetchUser(id: string): Promise<User> {
   const { data, error } = await supabase
     .from("users")
     .select("*")
@@ -14,16 +14,16 @@ export const fetchUser = async (id: string) => {
 
   const skills = await getUserSkills(id);
 
-  return new User(
-    data.id,
-    data.name,
-    data.description,
-    data.github_id,
-    data.qiita_id,
-    data.x_id,
-    data.created_at,
+  return {
+    id: data.id,
+    name: data.name,
+    description: data.description,
+    githubId: data.github_id,
+    qiitaId: data.qiita_id,
+    xId: data.x_id,
+    createdAt: data.created_at,
     skills
-  );
+  };
 };
 
 export async function addUser(record: Omit<User, "createdAt">) {
@@ -51,10 +51,11 @@ async function getUserSkills(id: string): Promise<Skill[]> {
 
   if (!userSkills) return []
 
-  const { data: skills } = await supabase
+  const { data: skillsResponse } = await supabase
     .from("skills")
     .select("id, name")
     .in("id", userSkills.map(skill => skill.skill_id));
 
-  return skills?.map(skill => new Skill(skill.id, skill.name)) ?? [];
+
+  return skillsResponse?.map(skill => ({ id: skill.id, name: skill.name })) ?? [];
 }
