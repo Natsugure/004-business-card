@@ -1,4 +1,4 @@
-import type { User } from "../types/user";
+import type { User } from "../shared/types/user";
 
 export function generateGithubUrl(user: User) {
   return `https://github.com/${user.githubId}`;

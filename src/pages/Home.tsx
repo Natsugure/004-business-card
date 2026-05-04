@@ -1,14 +1,24 @@
-import { Button, Heading } from '@chakra-ui/react'
+import { Button, VStack } from '@chakra-ui/react'
+import { IoAdd } from "react-icons/io5"
 import { useNavigate } from 'react-router'
+import { SearchBox } from '../features/user/components/UserSearchBox'
 
 export function Home() {
-  const nav = useNavigate()
+  const navigate = useNavigate()
 
   return (
     <>
-      <Heading as="h1">ホーム</Heading>
-      <Button onClick={() => nav('/cards/sample_id')}>サンプル</Button>
-      <Button onClick={() => nav('/cards/register')}>新規登録</Button>
+      <VStack spacing={8} align="start" p={4}>
+        <Button
+          leftIcon={<IoAdd />}
+          colorScheme='teal'
+          alignSelf="end"
+          onClick={() => navigate('/cards/register')}
+        >
+          新規登録
+        </Button>
+        <SearchBox onSearch={(inputId) => navigate(`/cards/${inputId}`)} />
+      </VStack>
     </>
   )
 }

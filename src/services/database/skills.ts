@@ -1,5 +1,5 @@
-import { supabase } from "../libs/supabase";
-import type { Skill } from "../types/user";
+import { supabase } from "./supabase";
+import type { Skill } from "../../shared/types/user";
 
 export async function fetchAllSkills() {
   const { data, error } = await supabase

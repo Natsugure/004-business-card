@@ -1,11 +1,27 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Textarea, useDisclosure, VStack } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Textarea,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import { Select, type GroupBase, type OptionBase } from "chakra-react-select";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState, useRef } from "react";
-import { fetchAllSkills } from "../../services/skills";
-import { LoadingOverlay } from "./LoadingOverlay";
-import { addUser } from "../../services/users";
-import type { User, Skill } from "../../types/user";
+import { fetchAllSkills } from "../../../services/database/skills";
+import { LoadingOverlay } from "../../../shared/components/overlay/LoadingOverlay";
+import { addUser } from "../../../services/database/users";
+import type { User, Skill } from "../../../shared/types/user";
 import { useNavigate } from "react-router";
 
 interface FormValues {
@@ -27,9 +43,9 @@ interface SkillGroup extends OptionBase {
 export function CardForm() {
   const [skills, setSkills] = useState<SkillGroup[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef(null)
-  const navigate = useNavigate()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -49,7 +65,7 @@ export function CardForm() {
       qiitaId: data.qiitaId,
       xId: data.xId,
       skills: skills.map((skill) => skill.skill),
-    }
+    };
 
     try {
       await addUser(values);
@@ -59,9 +75,9 @@ export function CardForm() {
     }
   };
 
-  const handleOnClose = () => { 
+  const handleOnClose = () => {
     onClose();
-    void navigate("/") 
+    void navigate("/");
   };
 
   useEffect(() => {
@@ -69,11 +85,13 @@ export function CardForm() {
       try {
         const data = await fetchAllSkills();
 
-        setSkills(data.map((skill) => ({
-          value: skill.id,
-          label: skill.name,
-          skill: skill,
-        })));
+        setSkills(
+          data.map((skill) => ({
+            value: skill.id,
+            label: skill.name,
+            skill: skill,
+          })),
+        );
       } catch (e) {
         console.error("好きな技術の選択肢の取得に失敗しました", e);
       }
@@ -90,13 +108,10 @@ export function CardForm() {
           <FormControl isInvalid={!!errors.id} isRequired>
             <FormLabel>名刺ID</FormLabel>
             <Input
-              {...register(
-                "id",
-                { 
-                  required: true,
-                  pattern: /^[a-zA-Z0-9]+$/i
-                }
-              )}
+              {...register("id", {
+                required: true,
+                pattern: /^[a-zA-Z0-9]+$/i,
+              })}
               type="text"
             />
             <FormErrorMessage>
@@ -136,44 +151,39 @@ export function CardForm() {
                 <Select<SkillGroup, true, GroupBase<SkillGroup>>
                   isMulti
                   placeholder="好きな技術を選択してください"
-                  onChange={(selected) => onChange(selected ? selected.map((opt) => opt.value) : [])}
+                  onChange={(selected) =>
+                    onChange(selected ? selected.map((opt) => opt.value) : [])
+                  }
                   value={skills.filter((skill) => value.includes(skill.value))}
                   options={skills}
                   ref={ref}
                 />
-            )}
+              )}
             />
             <FormErrorMessage>{errors.skills?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={!!errors.githubId}>
             <FormLabel>GitHub ID</FormLabel>
-            <Input
-              {...register("githubId")}
-              type="text"
-            />
+            <Input {...register("githubId")} type="text" />
           </FormControl>
-          
+
           <FormControl isInvalid={!!errors.qiitaId}>
             <FormLabel>Qiita ID</FormLabel>
-            <Input
-              {...register("qiitaId")}
-              type="text"
-            />
+            <Input {...register("qiitaId")} type="text" />
           </FormControl>
 
           <FormControl isInvalid={!!errors.xId}>
             <FormLabel>X ID</FormLabel>
-            <Input
-              {...register("xId")}
-              type="text"
-            />
+            <Input {...register("xId")} type="text" />
           </FormControl>
 
-          <Button type="submit" mt={8} colorScheme="teal">登録</Button>
+          <Button type="submit" mt={8} colorScheme="teal">
+            登録
+          </Button>
         </VStack>
       </form>
-      
+
       <AlertDialog
         isOpen={isOpen}
         onClose={handleOnClose}
@@ -184,9 +194,7 @@ export function CardForm() {
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               登録完了
             </AlertDialogHeader>
-            <AlertDialogBody>
-              登録が完了しました。
-            </AlertDialogBody>
+            <AlertDialogBody>登録が完了しました。</AlertDialogBody>
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={handleOnClose}>
                 閉じる
@@ -196,5 +204,5 @@ export function CardForm() {
         </AlertDialogOverlay>
       </AlertDialog>
     </>
-  )
-};
+  );
+}
