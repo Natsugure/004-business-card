@@ -4,11 +4,13 @@ import { fetchUser } from "../services/users";
 import type { User } from "../types/user";
 import { LoadingOverlay } from "../components/organisms/LoadingOverlay";
 import { UserCard } from "../components/organisms/UserCard";
+import { UserNotFound } from "../components/organisms/UserNotFound";
 
 export function Card() {
   const { id } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
@@ -21,8 +23,8 @@ export function Card() {
       try {
         const data = await fetchUser(id);
         setUser(data);
-      } catch (e) {
-        console.error("ユーザーの取得に失敗しました。", e);
+      } catch {
+        setNotFound(true);
       }
     };
     void fetch().then(() => setIsLoading(false));
@@ -32,7 +34,10 @@ export function Card() {
     <>
       {isLoading ? (
         <LoadingOverlay />
-      ) : (
+      ) : notFound ? (
+        <UserNotFound />
+      ) : 
+      (
         user && <UserCard user={user} />
       )}
     </>
