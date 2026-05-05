@@ -1,6 +1,6 @@
 import { Button, VStack } from '@chakra-ui/react'
 import { IoAdd } from "react-icons/io5"
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { SearchBox } from '../features/user/components/UserSearchBox'
 
 export function Home() {
