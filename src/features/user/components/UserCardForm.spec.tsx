@@ -17,7 +17,7 @@ vi.mock("../../../services/database/users")
 vi.mock("../../../services/database/skills")
 
 describe("UserCardForm", () => {
-  beforeEach(() => {
+  beforeEach( async () => {
     vi.mocked(userService.addUser).mockResolvedValue(undefined);
     vi.mocked(skillService.fetchAllSkills).mockResolvedValue([
       { id: 1, name: "React" },
@@ -29,12 +29,12 @@ describe("UserCardForm", () => {
         <CardForm />
       </ChakraProvider>
     );
+
+    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
   });
 
   it("全項目を入力して登録ボタンを押すとHomeに遷移する", async () => {
     const user = userEvent.setup();
-
-    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
 
     await user.type(screen.getByRole("textbox", { name: "名刺ID" }), "testUser1");
     await user.type(screen.getByRole("textbox", { name: "名前" }), "テストユーザー1");
@@ -59,8 +59,6 @@ describe("UserCardForm", () => {
   it("IDの入力がないときにエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
 
-    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
-
     await user.type(screen.getByRole("textbox", { name: "名刺ID" }), "testUser1");
     await user.type(screen.getByRole("textbox", { name: "自己紹介" }), "テストユーザーの自己紹介");
 
@@ -81,8 +79,6 @@ describe("UserCardForm", () => {
     it("名前の入力がないときにエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
 
-    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
-
     await user.type(screen.getByRole("textbox", { name: "名前" }), "テストユーザー1");
     await user.type(screen.getByRole("textbox", { name: "自己紹介" }), "テストユーザーの自己紹介");
 
@@ -102,8 +98,6 @@ describe("UserCardForm", () => {
 
   it("自己紹介の入力がないときにエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
-
-    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
 
     await user.type(screen.getByRole("textbox", { name: "名刺ID" }), "testUser1");
     await user.type(screen.getByRole("textbox", { name: "名前" }), "テストユーザー1");
@@ -142,8 +136,6 @@ describe("UserCardForm", () => {
   it("オプション項目が未入力で登録できる", async () =>{
     const user = userEvent.setup();
 
-    await waitFor(() => expect(screen.queryByText("読み込み中…")).not.toBeInTheDocument());
-
     await user.type(screen.getByRole("textbox", { name: "名刺ID" }), "testUser1");
     await user.type(screen.getByRole("textbox", { name: "名前" }), "テストユーザー1");
     await user.type(screen.getByRole("textbox", { name: "自己紹介" }), "テストユーザーの自己紹介");
@@ -153,7 +145,7 @@ describe("UserCardForm", () => {
     await user.click(screen.getByText("React"));
     await user.click(skillInput);
     await user.click(screen.getByText("TypeScript"));
-    
+
     await user.click(screen.getByRole("button", { name: "登録" }));
 
     await user.click(await screen.findByRole("button", { name: "閉じる" }));
