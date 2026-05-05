@@ -22,7 +22,7 @@ import { fetchAllSkills } from "../../../services/database/skills";
 import { LoadingOverlay } from "../../../shared/components/overlay/LoadingOverlay";
 import { addUser } from "../../../services/database/users";
 import type { User, Skill } from "../../../shared/types/user";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 interface FormValues {
   id: string;
@@ -103,9 +103,9 @@ export function CardForm() {
   return (
     <>
       {isLoading && <LoadingOverlay />}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <VStack spacing={4} align="stretch">
-          <FormControl isInvalid={!!errors.id} isRequired>
+          <FormControl id="id" isInvalid={!!errors.id} isRequired>
             <FormLabel>名刺ID</FormLabel>
             <Input
               {...register("id", {
@@ -123,7 +123,7 @@ export function CardForm() {
             </FormHelperText>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.name} isRequired>
+          <FormControl id="name" isInvalid={!!errors.name} isRequired>
             <FormLabel>名前</FormLabel>
             <Input
               {...register("name", { required: "名前は必須です" })}
@@ -132,7 +132,7 @@ export function CardForm() {
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.description} isRequired>
+          <FormControl id="description" isInvalid={!!errors.description} isRequired>
             <FormLabel>自己紹介</FormLabel>
             <Textarea
               placeholder="<h1>HTMLタグも使えます</h1>"
@@ -141,7 +141,7 @@ export function CardForm() {
             <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.skills} isRequired>
+          <FormControl id="skills" isInvalid={!!errors.skills} isRequired>
             <FormLabel>好きな技術</FormLabel>
             <Controller
               name="skills"
@@ -163,17 +163,17 @@ export function CardForm() {
             <FormErrorMessage>{errors.skills?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.githubId}>
+          <FormControl id="githubId" isInvalid={!!errors.githubId}>
             <FormLabel>GitHub ID</FormLabel>
             <Input {...register("githubId")} type="text" />
           </FormControl>
 
-          <FormControl isInvalid={!!errors.qiitaId}>
+          <FormControl id="qiitaId" isInvalid={!!errors.qiitaId}>
             <FormLabel>Qiita ID</FormLabel>
             <Input {...register("qiitaId")} type="text" />
           </FormControl>
 
-          <FormControl isInvalid={!!errors.xId}>
+          <FormControl id="xId" isInvalid={!!errors.xId}>
             <FormLabel>X ID</FormLabel>
             <Input {...register("xId")} type="text" />
           </FormControl>
