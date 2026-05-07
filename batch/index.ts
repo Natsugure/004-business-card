@@ -15,7 +15,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
 async function deleteAllUsers() {
   try {
     const { error: userSkillError } = await supabase
-      .from('user_skills')
+      .from('user_skill')
       .delete()
       .not('id', 'is', null)
 
@@ -32,10 +32,11 @@ async function deleteAllUsers() {
       throw userError
     }
 
-    console.log('All users and user_skills deleted successfully')
+    console.log('All users and user_skill deleted successfully')
 
   } catch (e) {
-    console.error('Error deleting users and user_skills:', e)
+    console.error('Error deleting users and user_skill:', e)
+    process.exit(1)
   }
 }
 
