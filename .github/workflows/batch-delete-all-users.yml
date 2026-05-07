@@ -1,0 +1,22 @@
+name: Delete All Users Batch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 21 * * *"
+
+jobs:
+  delete-all-users:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup pnpm and Node.js
+      uses: ./.github/actions/setup
+    
+    - name: Delete all Users
+      env: 
+        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      run: npx tsx batch/index.ts
